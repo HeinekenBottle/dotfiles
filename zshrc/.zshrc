@@ -26,13 +26,17 @@ setopt hist_verify
 bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # ---- FZF -----
 
 # Set up fzf key bindings and fuzzy completion
-eval "$(fzf --zsh)"
+# eval "$(fzf --zsh)"
 
 # --- setup fzf theme ---
 fg="#CBE0F0"
@@ -91,9 +95,9 @@ export BAT_THEME=tokyonight_night
 alias ls="eza --icons=always"
 
 # ---- Zoxide (better cd) ----
-eval "$(zoxide init zsh)"
+# eval "$(zoxide init zsh)"
 
-alias cd="z"
+# alias cd="z"
 
 alias python="python3"
 
@@ -108,3 +112,6 @@ function y() {
 	fi
 	rm -f -- "$tmp"
 }
+source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+

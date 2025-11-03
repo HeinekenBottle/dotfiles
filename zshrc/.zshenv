@@ -2,7 +2,7 @@
 # Phase 1: Basic environment variables
 
 # PATH should be set here for all programs
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 # Basic environment variables
 export LANG=en_US.UTF-8
