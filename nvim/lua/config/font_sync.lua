@@ -86,7 +86,32 @@ function M.apply()
   
   vim.api.nvim_set_hl(0, "Bold", { fg = BOLD_FG, bg = "NONE", bold = true })
   vim.api.nvim_set_hl(0, "@text.strong", { fg = BOLD_FG, bg = "NONE", bold = true })
-  
+
+  -- Treesitter highlight groups (using WezTerm colors)
+  vim.api.nvim_set_hl(0, "@keyword", { fg = RED, bg = "NONE", bold = true })
+  vim.api.nvim_set_hl(0, "@keyword.function", { fg = RED, bg = "NONE", bold = true })
+  vim.api.nvim_set_hl(0, "@keyword.return", { fg = RED, bg = "NONE", bold = true })
+  vim.api.nvim_set_hl(0, "@function", { fg = BRIGHT_BLUE, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "@function.call", { fg = BRIGHT_BLUE, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "@function.builtin", { fg = BLUE, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "@string", { fg = GREEN, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "@number", { fg = YELLOW, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "@boolean", { fg = MAGENTA, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "@variable", { fg = FG, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "@variable.builtin", { fg = CYAN, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "@parameter", { fg = CYAN, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "@type", { fg = BLUE, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "@type.builtin", { fg = BLUE, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "@comment", { fg = BRIGHT_BLACK, bg = "NONE", italic = true })
+  vim.api.nvim_set_hl(0, "@operator", { fg = RED, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "@punctuation.bracket", { fg = FG, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "@punctuation.delimiter", { fg = FG, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "@constant", { fg = MAGENTA, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "@constant.builtin", { fg = MAGENTA, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "@tag", { fg = RED, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "@tag.attribute", { fg = CYAN, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "@property", { fg = CYAN, bg = "NONE" })
+
   local stat = vim.loop.fs_stat(M.palette_file)
   if stat then
     M.last_mtime = stat.mtime.sec

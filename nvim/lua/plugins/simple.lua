@@ -61,6 +61,12 @@ return {
      priority = 800,
      lazy = false,
      opts = {
+       -- Buffer management (replaces mini.bufremove)
+       bufdelete = { enabled = true },
+
+       -- Input prompts (vim.ui.input)
+       input = { enabled = true },
+
        dashboard = {
          enabled = true,
          preset = {
@@ -103,6 +109,66 @@ return {
              },
            },
       },
+  },
+
+  -- Command line, messages, and notifications UI (center screen)
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    },
+    opts = {
+      lsp = {
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
+        },
+      },
+      presets = {
+        command_palette = true,       -- Center command line popup
+        long_message_to_split = true, -- Long messages in split
+        lsp_doc_border = true,        -- LSP docs with border
+      },
+      views = {
+        cmdline_popup = {
+          border = {
+            style = "single",
+          },
+        },
+      },
+    },
+  },
+
+  -- Treesitter for advanced syntax highlighting
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    event = { "BufReadPost", "BufNewFile" },
+    opts = {
+      ensure_installed = {
+        "lua",
+        "vim",
+        "vimdoc",
+        "python",
+        "javascript",
+        "typescript",
+        "bash",
+        "json",
+        "yaml",
+        "markdown",
+        "markdown_inline",
+      },
+      highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+      },
+      indent = { enable = true },
+    },
+    config = function(_, opts)
+      require("nvim-treesitter.configs").setup(opts)
+    end,
   },
 
   -- Modern completion (replaces nvim-cmp)
@@ -158,6 +224,9 @@ return {
           { "<leader>fg", function() Snacks.picker.grep() end, desc = "Live Grep" },
           { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
           { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent Files" },
+          { "<leader>b", group = "Buffers" },
+          { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
+          { "<leader>bD", function() Snacks.bufdelete.all() end, desc = "Delete All Buffers" },
           { "<leader>e", function() require("mini.files").open() end, desc = "File Explorer" },
           { "<leader>t", function() require("transparent").toggle() end, desc = "Toggle Transparency" },
           { "<leader>us", "<cmd>WeztermCheckSync<CR>", desc = "Check WezTerm font sync" },

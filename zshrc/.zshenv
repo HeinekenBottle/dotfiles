@@ -10,3 +10,4 @@ export LC_ALL=en_US.UTF-8
 
 # Machine-specific environment goes here
 # This file should not contain commands that output anything
+. "$HOME/.cargo/env"

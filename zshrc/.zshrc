@@ -7,6 +7,9 @@ fi
 
 source /usr/local/share/powerlevel10k/powerlevel10k.zsh-theme
 
+# Rust/Cargo PATH
+source "$HOME/.cargo/env"
+
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
