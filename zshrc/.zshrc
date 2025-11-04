@@ -7,6 +7,8 @@ fi
 
 source /usr/local/share/powerlevel10k/powerlevel10k.zsh-theme
 
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
@@ -36,7 +38,7 @@ source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 # ---- FZF -----
 
 # Set up fzf key bindings and fuzzy completion
-# eval "$(fzf --zsh)"
+eval "$(fzf --zsh)"
 
 # --- setup fzf theme ---
 fg="#CBE0F0"
@@ -95,9 +97,9 @@ export BAT_THEME=tokyonight_night
 alias ls="eza --icons=always"
 
 # ---- Zoxide (better cd) ----
-# eval "$(zoxide init zsh)"
+eval "$(zoxide init zsh)"
 
-# alias cd="z"
+alias cd="z"
 
 alias python="python3"
 
