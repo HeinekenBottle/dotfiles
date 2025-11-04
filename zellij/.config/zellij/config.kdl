@@ -1,25 +1,11 @@
 // Minimal Zellij config matching WezTerm coolnight theme
 // Reload with: zellij action reload-config
 
-// UI Settings - Minimal and clean
-ui {
-    pane_frames {
-        rounded_corners false
-        hide_session_name true
-    }
-}
+// UI Settings - Minimal and clean with thin separators
+pane_frames false
 
 // Simplified UI - must be false for zjstatus to display
 simplified_ui false
-
-// Load zjframes plugin for auto-hiding frames with single pane
-load_plugins {
-    "file:/Users/jack/dotfiles/zellij/.config/zellij/plugins/zjframes.wasm" {
-        hide_frame_for_single_pane "true"
-        hide_frame_except_for_search "false"
-        hide_frame_except_for_fullscreen "false"
-    }
-}
 
 // Theme matching WezTerm coolnight
 theme "coolnight" {
@@ -83,15 +69,14 @@ keybinds clear-defaults=true {
         bind "8" { GoToTab 8; SwitchToMode "normal"; }
         bind "9" { GoToTab 9; SwitchToMode "normal"; }
 
-        // Help and modes
-        bind "?" { SwitchToMode "tmux"; }  // Help/mode selector
+        // Mode shortcuts
         bind "p" { SwitchToMode "pane"; }
         bind "t" { SwitchToMode "tab"; }
         bind "s" { SwitchToMode "scroll"; }
         bind "o" { SwitchToMode "session"; }
     }
 
-    // Pane mode (for resizing)
+    // Pane mode (for resizing - works for floating panes too)
     pane {
         bind "Esc" { SwitchToMode "normal"; }
         bind "h" "Left" { Resize "Increase Left"; }
@@ -105,6 +90,13 @@ keybinds clear-defaults=true {
         bind "x" { CloseFocus; SwitchToMode "normal"; }
         bind "f" { ToggleFocusFullscreen; SwitchToMode "normal"; }
         bind "w" { ToggleFloatingPanes; SwitchToMode "normal"; }
+        bind "r" { SwitchToMode "RenamePane"; PaneNameInput 0; }
+    }
+
+    // Rename pane mode
+    renamepane {
+        bind "Esc" { UndoRenamePane; SwitchToMode "pane"; }
+        bind "Enter" { SwitchToMode "normal"; }
     }
 
     // Tab mode
@@ -156,16 +148,6 @@ keybinds clear-defaults=true {
         }
     }
 
-    // Tmux mode (help/mode selector)
-    tmux {
-        bind "Esc" { SwitchToMode "normal"; }
-        bind "Ctrl a" { SwitchToMode "normal"; }
-        bind "p" { SwitchToMode "pane"; }
-        bind "t" { SwitchToMode "tab"; }
-        bind "s" { SwitchToMode "scroll"; }
-        bind "o" { SwitchToMode "session"; }
-    }
-
     // Rename tab mode
     renametab {
         bind "Esc" { UndoRenameTab; SwitchToMode "tab"; }
@@ -198,4 +180,4 @@ session_serialization false
 // Auto-layout on resize
 auto_layout true
 
-// Pane frames managed by zjframes plugin (auto-hides for single pane)
+// Minimal pane separators (no frames, tmux-style)

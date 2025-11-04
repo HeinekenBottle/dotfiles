@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Binaries and archives
+*.tar.gz
+*.zip
+nvim-macos-x86_64.tar.gz
+
+# Temporary files
+*.swp
+*.swo
+*~
