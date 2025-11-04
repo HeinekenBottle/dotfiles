@@ -1,0 +1,201 @@
+// Minimal Zellij config matching WezTerm coolnight theme
+// Reload with: zellij action reload-config
+
+// UI Settings - Minimal and clean
+ui {
+    pane_frames {
+        rounded_corners false
+        hide_session_name true
+    }
+}
+
+// Simplified UI - must be false for zjstatus to display
+simplified_ui false
+
+// Load zjframes plugin for auto-hiding frames with single pane
+load_plugins {
+    "file:/Users/jack/dotfiles/zellij/.config/zellij/plugins/zjframes.wasm" {
+        hide_frame_for_single_pane "true"
+        hide_frame_except_for_search "false"
+        hide_frame_except_for_fullscreen "false"
+    }
+}
+
+// Theme matching WezTerm coolnight
+theme "coolnight" {
+    fg 203 224 240      // #CBE0F0
+    bg 1 20 35          // #011423
+    black 33 73 105     // #214969
+    red 229 46 46       // #E52E2E
+    green 68 255 177    // #44FFB1
+    yellow 255 224 115  // #FFE073
+    blue 15 197 237     // #0FC5ED
+    magenta 162 119 255 // #A277FF
+    cyan 36 234 247     // #24EAF7
+    white 203 224 240   // #CBE0F0
+    orange 255 224 115  // #FFE073 (reuse yellow)
+}
+
+// Tmux-like Ctrl+A prefix keybindings
+keybinds clear-defaults=true {
+    // Normal mode - Ctrl+A enters Locked mode (prefix)
+    normal {
+        bind "Ctrl a" { SwitchToMode "locked"; }
+        bind "Ctrl q" { Quit; }
+    }
+
+    // Locked mode - Your prefix mode (like tmux Ctrl+A)
+    locked {
+        // Exit locked mode
+        bind "Esc" { SwitchToMode "normal"; }
+        bind "Ctrl a" { SwitchToMode "normal"; }
+
+        // Pane navigation (arrow keys)
+        bind "Left" { MoveFocus "Left"; }
+        bind "Right" { MoveFocus "Right"; }
+        bind "Up" { MoveFocus "Up"; }
+        bind "Down" { MoveFocus "Down"; }
+
+        // Vim-style navigation
+        bind "h" { MoveFocus "Left"; }
+        bind "l" { MoveFocus "Right"; }
+        bind "k" { MoveFocus "Up"; }
+        bind "j" { MoveFocus "Down"; }
+
+        // Tmux-style split keybindings
+        bind "|" { NewPane "Right"; SwitchToMode "normal"; }  // Left/right split
+        bind "\"" { NewPane "Down"; SwitchToMode "normal"; }  // Top/bottom split
+        bind "x" { CloseFocus; SwitchToMode "normal"; }       // Close pane
+
+        // Floating panes
+        bind "w" { ToggleFloatingPanes; SwitchToMode "normal"; }
+        bind "f" { ToggleFocusFullscreen; SwitchToMode "normal"; }
+
+        // Tab management
+        bind "c" { NewTab; SwitchToMode "normal"; }
+        bind "1" { GoToTab 1; SwitchToMode "normal"; }
+        bind "2" { GoToTab 2; SwitchToMode "normal"; }
+        bind "3" { GoToTab 3; SwitchToMode "normal"; }
+        bind "4" { GoToTab 4; SwitchToMode "normal"; }
+        bind "5" { GoToTab 5; SwitchToMode "normal"; }
+        bind "6" { GoToTab 6; SwitchToMode "normal"; }
+        bind "7" { GoToTab 7; SwitchToMode "normal"; }
+        bind "8" { GoToTab 8; SwitchToMode "normal"; }
+        bind "9" { GoToTab 9; SwitchToMode "normal"; }
+
+        // Help and modes
+        bind "?" { SwitchToMode "tmux"; }  // Help/mode selector
+        bind "p" { SwitchToMode "pane"; }
+        bind "t" { SwitchToMode "tab"; }
+        bind "s" { SwitchToMode "scroll"; }
+        bind "o" { SwitchToMode "session"; }
+    }
+
+    // Pane mode (for resizing)
+    pane {
+        bind "Esc" { SwitchToMode "normal"; }
+        bind "h" "Left" { Resize "Increase Left"; }
+        bind "j" "Down" { Resize "Increase Down"; }
+        bind "k" "Up" { Resize "Increase Up"; }
+        bind "l" "Right" { Resize "Increase Right"; }
+        bind "H" { Resize "Decrease Left"; }
+        bind "J" { Resize "Decrease Down"; }
+        bind "K" { Resize "Decrease Up"; }
+        bind "L" { Resize "Decrease Right"; }
+        bind "x" { CloseFocus; SwitchToMode "normal"; }
+        bind "f" { ToggleFocusFullscreen; SwitchToMode "normal"; }
+        bind "w" { ToggleFloatingPanes; SwitchToMode "normal"; }
+    }
+
+    // Tab mode
+    tab {
+        bind "Esc" { SwitchToMode "normal"; }
+        bind "h" "Left" "Up" "k" { GoToPreviousTab; }
+        bind "l" "Right" "Down" "j" { GoToNextTab; }
+        bind "n" { NewTab; SwitchToMode "normal"; }
+        bind "x" { CloseTab; SwitchToMode "normal"; }
+        bind "r" { SwitchToMode "RenameTab"; TabNameInput 0; }
+    }
+
+    // Scroll mode
+    scroll {
+        bind "Esc" { SwitchToMode "normal"; }
+        bind "e" { EditScrollback; SwitchToMode "normal"; }
+        bind "s" { SwitchToMode "entersearch"; SearchInput 0; }
+        bind "Ctrl c" { ScrollToBottom; SwitchToMode "normal"; }
+        bind "j" "Down" { ScrollDown; }
+        bind "k" "Up" { ScrollUp; }
+        bind "Ctrl f" "PageDown" "Right" "l" { PageScrollDown; }
+        bind "Ctrl b" "PageUp" "Left" "h" { PageScrollUp; }
+        bind "d" { HalfPageScrollDown; }
+        bind "u" { HalfPageScrollUp; }
+    }
+
+    // Search mode
+    search {
+        bind "Esc" { SwitchToMode "normal"; }
+        bind "j" "Down" { ScrollDown; }
+        bind "k" "Up" { ScrollUp; }
+        bind "Ctrl c" { ScrollToBottom; SwitchToMode "normal"; }
+        bind "n" { Search "down"; }
+        bind "p" { Search "up"; }
+        bind "c" { SearchToggleOption "CaseSensitivity"; }
+        bind "w" { SearchToggleOption "Wrap"; }
+        bind "o" { SearchToggleOption "WholeWord"; }
+    }
+
+    // Session mode
+    session {
+        bind "Esc" { SwitchToMode "normal"; }
+        bind "d" { Detach; }
+        bind "w" {
+            LaunchOrFocusPlugin "session-manager" {
+                floating true
+            }
+            SwitchToMode "normal"
+        }
+    }
+
+    // Tmux mode (help/mode selector)
+    tmux {
+        bind "Esc" { SwitchToMode "normal"; }
+        bind "Ctrl a" { SwitchToMode "normal"; }
+        bind "p" { SwitchToMode "pane"; }
+        bind "t" { SwitchToMode "tab"; }
+        bind "s" { SwitchToMode "scroll"; }
+        bind "o" { SwitchToMode "session"; }
+    }
+
+    // Rename tab mode
+    renametab {
+        bind "Esc" { UndoRenameTab; SwitchToMode "tab"; }
+        bind "Enter" { SwitchToMode "normal"; }
+    }
+
+    // Search input mode
+    entersearch {
+        bind "Enter" { SwitchToMode "search"; }
+        bind "Esc" { SwitchToMode "scroll"; }
+    }
+}
+
+// Floating panes configuration
+floating_panes {
+    default_width "50%"
+    default_height "50%"
+}
+
+// Mouse support
+mouse_mode true
+scroll_buffer_size 10000
+
+// Copy on select
+copy_on_select true
+
+// Session serialization
+session_serialization false
+
+// Auto-layout on resize
+auto_layout true
+
+// Pane frames managed by zjframes plugin (auto-hides for single pane)

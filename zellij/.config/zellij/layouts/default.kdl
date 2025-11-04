@@ -1,0 +1,67 @@
+layout {
+    default_tab_template {
+        children
+        pane size=1 borderless=true {
+            plugin location="file:/Users/jack/dotfiles/zellij/.config/zellij/plugins/zjstatus.wasm" {
+                // Color aliases matching WezTerm coolnight theme
+                color_bg "#011423"      // Background
+                color_fg "#CBE0F0"      // Foreground
+                color_black "#214969"   // Black (dimmed)
+                color_red "#E52E2E"     // Red
+                color_green "#44FFB1"   // Green
+                color_yellow "#FFE073"  // Yellow
+                color_blue "#0FC5ED"    // Blue
+                color_magenta "#A277FF" // Magenta
+                color_cyan "#24EAF7"    // Cyan
+                color_white "#CBE0F0"   // White
+                color_orange "#FFE073"  // Orange (use yellow)
+                color_selection "#033259" // Selection background
+
+                // Update intervals (in milliseconds) to prevent flickering
+                update_interval 60000     // Update bar every 60 seconds
+
+                // Layout: Left - mode+session | Center - tabs | Right - clock
+                format_left   "{mode} #[fg=$cyan,bold]{session}"
+                format_center "{tabs}"
+                format_right  "{datetime}"
+                format_space  "#[bg=$bg]"
+
+                // Hide sections on overlap
+                format_hide_on_overlength "true"
+                format_precedence "lrc"
+
+                // Border disabled to prevent flickering
+                border_enabled  "false"
+
+                // Mode indicators - clean without powerline arrows to prevent flickering
+                mode_normal        "#[bg=$green,fg=$bg,bold] NORMAL "
+                mode_locked        "#[bg=$red,fg=$bg,bold] LOCKED "
+                mode_resize        "#[bg=$blue,fg=$bg,bold] RESIZE "
+                mode_pane          "#[bg=$blue,fg=$bg,bold] PANE "
+                mode_tab           "#[bg=$magenta,fg=$bg,bold] TAB "
+                mode_scroll        "#[bg=$yellow,fg=$bg,bold] SCROLL "
+                mode_enter_search  "#[bg=$yellow,fg=$bg,bold] SEARCH "
+                mode_search        "#[bg=$yellow,fg=$bg,bold] SEARCH "
+                mode_rename_tab    "#[bg=$magenta,fg=$bg,bold] RENAME "
+                mode_rename_pane   "#[bg=$blue,fg=$bg,bold] RENAME "
+                mode_session       "#[bg=$orange,fg=$bg,bold] SESSION "
+                mode_move          "#[bg=$blue,fg=$bg,bold] MOVE "
+                mode_prompt        "#[bg=$red,fg=$bg,bold] PROMPT "
+                mode_tmux          "#[bg=$cyan,fg=$bg,bold] TMUX "
+
+                // Tab display - tasteful styling
+                tab_normal            "#[fg=$black] {index} #[fg=$fg]{name} "
+                tab_active            "#[fg=$yellow,bold] {index} #[fg=$yellow,bold]{name} "
+                tab_normal_fullscreen "#[fg=$black] {index} #[fg=$fg]{name} 󰊓 "
+                tab_active_fullscreen "#[fg=$yellow,bold] {index} #[fg=$yellow,bold]{name} 󰊓 "
+                tab_normal_sync       "#[fg=$black] {index} #[fg=$fg]{name} 󰓦 "
+                tab_active_sync       "#[fg=$yellow,bold] {index} #[fg=$yellow,bold]{name} 󰓦 "
+
+                // Datetime display - simplified to reduce redraws
+                datetime        "#[fg=$fg] {format} "
+                datetime_format "%H:%M"
+                datetime_timezone "America/Los_Angeles"
+            }
+        }
+    }
+}
