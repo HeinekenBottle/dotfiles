@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:zellij.dev)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:haseebmajid.dev)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
