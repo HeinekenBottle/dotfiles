@@ -1,0 +1,6 @@
+--target=$HOME
+--dir=.
+--ignore='(^|/)\.DS_Store$'
+--ignore='(^|/)README\.md$'
+--ignore='(^|/)LICENSE$'
+--ignore='(^|/)nvim-macos.*'
