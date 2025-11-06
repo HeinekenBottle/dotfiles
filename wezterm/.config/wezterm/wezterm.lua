@@ -31,6 +31,9 @@ config.keys = {
 	-- Shift+Enter: Send explicit newline
 	{ key = "Enter", mods = "SHIFT", action = wezterm.action.SendString("\n") },
 
+	-- Cmd+C: Copy selection to clipboard (main copy mechanism)
+	{ key = "c", mods = "CMD", action = wezterm.action.CopyTo("Clipboard") },
+
 	-- Cmd+V: Paste from clipboard
 	{ key = "v", mods = "CMD", action = wezterm.action.PasteFrom("Clipboard") },
 
