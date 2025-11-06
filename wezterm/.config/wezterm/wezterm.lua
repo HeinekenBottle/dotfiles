@@ -4,8 +4,6 @@ local wezterm = require("wezterm")
 -- This will hold the configuration.
 local config = wezterm.config_builder()
 
--- This is where you actually apply your config choices
-
 -- Josean's coolnight colorscheme:
 config.colors = {
 	foreground = "#CBE0F0",
@@ -30,8 +28,15 @@ config.window_decorations = "RESIZE"
 
 -- Key bindings
 config.keys = {
-	{ key = "Enter", mods = "SHIFT", action = wezterm.action({ SendString = "\n" }) },
+	-- Shift+Enter: Send explicit newline
+	{ key = "Enter", mods = "SHIFT", action = wezterm.action.SendString("\n") },
+
+	-- Cmd+V: Paste from clipboard
+	{ key = "v", mods = "CMD", action = wezterm.action.PasteFrom("Clipboard") },
+
+	-- Optional: Activate copy mode with Cmd+Shift+C for vim-style selection
+	{ key = "C", mods = "CMD|SHIFT", action = wezterm.action.ActivateCopyMode },
 }
 
--- and finally, return the configuration to wezterm
+-- Return the configuration to wezterm
 return config
