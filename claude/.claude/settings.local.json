@@ -1,6 +1,13 @@
 {
   "permissions": {
     "allow": [
+      "Bash(command -v:*)",
+      "Bash(timeout 5 goose agent:*)",
+      "Bash(~/.zshrc)",
+      "Bash(cat:*)",
+      "Bash(sudo find ~ -maxdepth 1 -type d ( -name \"*nvim-backups*\" -o -name \"*dataset_backups*\" -o -name \"*HopSketch_annotation*\" -o -name \"*dotfiles_backup*\" -o -name \"*test-env-backups*\" -o -name \"*nvim-config-backup*\" -o -name \"*OLD_CORRUPTED*\" -o -name \"*HopSketch_minimal*\" -o -name \"*nvim-stable*\" -o -name \"*adhd-trading*\" -o -name \"backups\" -o -name \"*git_cleanup*\" -o -name \"*HopSketch_Archive*\" -o -name \"*factory-sessions*\" ) -exec rm -rf {} +)",
+      "Bash(sudo rm:*)",
+      "Bash(sudo chmod:*)",
       "WebSearch",
       "WebFetch(domain:zellij.dev)",
       "WebFetch(domain:github.com)",
