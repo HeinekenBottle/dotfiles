@@ -1,42 +1,49 @@
-# WezTerm Background Backdrops
+# WezTerm Background Backdrops (Optional)
 
-This directory contains optional background images for WezTerm themes.
+This directory is for optional background images for WezTerm themes.
 
-## Required Images
+**Currently**: All themes have `backdrop = nil` (no background images are used).
 
-The following images are referenced by themes in `wezterm.lua`:
+## How to Add Backdrops
 
-1. **arctic-blue.png** - Cool blue/white abstract wallpaper (Arctic Frost theme)
-2. **tech-grid.jpg** - Modern tech-inspired grid pattern (Android AI theme)
-3. **sunset-abstract.png** - Warm sunset/vibrant abstract (Sunset Vibrant theme)
+If you want to add background images to your themes:
 
-## Adding Your Own Images
+1. **Place your wallpaper images in this directory**
+   - Supported formats: PNG, JPG, JPEG
+   - Recommended resolution: 1920x1080 or higher
 
-1. Place your wallpaper images in this directory
-2. Supported formats: PNG, JPG, JPEG
-3. Recommended resolution: 1920x1080 or higher
-4. Images will be automatically scaled to fit your terminal window
+2. **Edit `wezterm.lua` to reference the image**
+   - Find the theme in the `themes` table (lines 55-126)
+   - Change `backdrop = nil` to `backdrop = "backdrops/your-image.png"`
 
-## Customization
+   Example:
+   ```lua
+   {
+       name = "Root Loops",
+       colors = { ... },
+       backdrop = "backdrops/abstract-pattern.png",  -- Add this line
+   },
+   ```
 
-To change which backdrop a theme uses:
-- Edit `wezterm.lua`
-- Find the theme in the `themes` table
-- Update the `backdrop` field to your image filename:
-  ```lua
-  backdrop = "backdrops/your-image.png"
-  ```
-- Set to `nil` to disable backdrop for that theme
+3. **Restart WezTerm**
+   - The backdrop will appear with 30% brightness (darkened for text readability)
+   - Opacity adjusts with `Ctrl+Shift+Up/Down` hotkeys
 
 ## Image Suggestions
 
+Good backdrop choices:
 - **Abstract patterns**: Geometric shapes, gradients, tech grids
 - **Nature scenes**: Mountains, forests, oceans (with low saturation)
 - **Minimalist**: Simple textures, subtle patterns
-- **Dark themes**: Images work best when darkened (brightness is set to 0.3 in config)
+- **Dark themes**: Work best when images are naturally dark or will be darkened
 
-## Notes
+## Technical Details
 
-- Backdrops are darkened to 30% brightness to keep text readable
-- Opacity can be adjusted with `Ctrl+Shift+Up/Down` hotkeys
-- If an image file is missing, WezTerm will simply skip the backdrop (no errors)
+- Images are automatically scaled to fit terminal window
+- Brightness is set to 30% in config (editable in `wezterm.lua` line 291)
+- If an image file is missing, WezTerm will skip the backdrop (no errors)
+- Backdrops inherit global opacity adjustments from hotkeys
+
+## Current Status
+
+**No backdrops are currently configured**. Both themes (Root Loops, Arctic Frost) have `backdrop = nil` as specified in the original requirements. This directory exists for future customization if you choose to add background images.
