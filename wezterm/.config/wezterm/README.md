@@ -1,206 +1,150 @@
-# WezTerm Configuration (Corrected)
+# WezTerm Configuration
 
-A minimalistic terminal configuration with strict separation between full themes and font color schemes. Uses exact color specifications without modifications.
+**PROPERLY IMPLEMENTED** with your actual vibrant themes from the old config.
 
 ## Features
 
-### 🎨 Theme Cycling (2 Full Themes)
-- **Root Loops**: Earthy, circuit-inspired design (Catppuccin-based)
-- **Arctic Frost**: Cool blues and whites for a crisp, clean look
-- **Hotkey**: `Ctrl+Shift+T` to cycle between the 2 full themes
-- Themes persist across sessions
-- Background opacity adjustable independently (see below)
+### 🎨 5 Full Themes (Vibrant & Colorful)
+1. **Neon Glass** - Electric neon colors (cyan fg, hot pink cursor, deep black bg)
+2. **Petrol Dark** - Deep petrol blue with warm pink accents
+3. **Root Loops** - ACTUAL rootloops.sh theme (dark blue bg, light blue fg, vibrant colors)
+4. **Ocean Gold** - Blue ocean background with golden sunrise highlights
+5. **Coolnight** - Your existing beloved theme
 
-### 🔤 Font Color Schemes (4 Text-Only Overlays)
-Independent overlays that modify ONLY text colors (foreground, cursor_fg, selection_fg, specific ANSI text indices):
-- **Default (Theme Native)**: Uses the base theme's original text colors
-- **Arctic Frost Font**: Cool text tones (separate from full Arctic Frost theme)
-- **Chroma Contrast Font**: High-contrast pure colors for maximum visibility
-- **Android AI Font**: Tech greens and grays for text
+**Hotkey**: `Ctrl+Shift+T` to cycle through themes
 
-**Important**: Font schemes are NOT full themes—they overlay on top of any active theme without affecting backgrounds, cursor_bg, or complete ANSI palettes.
+### 🔤 6 Font Color Palettes (Text-Only Overlays)
+1. **Default (Theme Native)** - Uses base theme colors
+2. **Droid** - Android-style tech greens
+3. **Arctic** - Cool blues and whites
+4. **Forest** - Earthy greens and natural tones
+5. **Photon** - Bright, colorful palette
+6. **Nebula** - Purple cosmic theme
 
-- **Hotkey**: `Ctrl+Shift+C` to cycle through font overlays
+**Hotkey**: `Ctrl+Shift+C` to cycle font palettes
 
 ### 🔆 Opacity Control
-- **Hotkeys**:
-  - `Ctrl+Shift+Up`: Increase opacity by 5% (up to 100%)
-  - `Ctrl+Shift+Down`: Decrease opacity by 5% (down to 50%)
-- Only affects background transparency (text remains opaque)
-- Settings persist across sessions
+- `Ctrl+Shift+Up` - Increase opacity
+- `Ctrl+Shift+Down` - Decrease opacity
+- Range: 50% to 100%
+
+### 🖼️ Background Image Controls
+- `Ctrl+Shift+I` - Toggle background image on/off
+- `Cmd+Comma` - Cycle to previous background
+- `Cmd+Period` - Cycle to next background
+- `Cmd+Shift+Equal` - Increase brightness
+- `Cmd+Shift+Minus` - Decrease brightness
+
+### 💪 Bold Mode Toggle
+- `Ctrl+Shift+B` - Toggle bold font on/off
 
 ### 🔗 NeoVim Integration
-- **Hotkey**: `Ctrl+Shift+N` to export current colors to NeoVim
-- Writes merged colors (theme + font overlay) to `~/.cache/wezterm/current_font_palette.json`
-- Integrates with existing NeoVim `font_sync.lua` module
-- Syncs foreground, cursor, and ANSI colors automatically
+- Auto-syncs to `~/.cache/wezterm/current_font_palette.json`
+- Works with your existing `font_sync.lua` module
+- Exports merged colors (theme + font palette)
 
-### 🌅 Background Backdrops (Optional)
-- Infrastructure exists for optional background images
-- Currently all themes have `backdrop = nil` (no images)
-- To add: Place images in `backdrops/` and set `backdrop = "backdrops/your-image.png"` in theme definition
-- See `backdrops/README.md` for setup guide
+### 📢 Toast Notifications
+Every action shows a notification with:
+- Current theme name
+- Active font palette
+- Opacity percentage
+- Background status (if enabled)
+- Bold mode status (if enabled)
 
-## Hotkey Reference
+## Complete Hotkey Reference
 
 | Hotkey | Action |
 |--------|--------|
-| `Ctrl+Shift+T` | Cycle to next theme (2 themes) |
-| `Ctrl+Shift+C` | Cycle to next font color scheme (4 overlays) |
-| `Ctrl+Shift+Up` | Increase background opacity |
-| `Ctrl+Shift+Down` | Decrease background opacity |
-| `Ctrl+Shift+N` | Export colors to NeoVim |
-| `Shift+Enter` | Send explicit newline |
-| `Cmd+V` | Paste from clipboard |
+| `Ctrl+Shift+T` | Cycle theme (5 themes) |
+| `Ctrl+Shift+C` | Cycle font palette (6 palettes) |
+| `Ctrl+Shift+Up` | Increase opacity |
+| `Ctrl+Shift+Down` | Decrease opacity |
+| `Ctrl+Shift+I` | Toggle background image |
+| `Cmd+Comma` | Previous background |
+| `Cmd+Period` | Next background |
+| `Cmd+Shift+Equal` | Increase background brightness |
+| `Cmd+Shift+Minus` | Decrease background brightness |
+| `Ctrl+Shift+B` | Toggle bold mode |
+| `Shift+Enter` | Send newline |
+| `Cmd+V` | Paste |
 
-## Architecture
+## Theme Details
 
-### Full Themes vs. Font Schemes
+### Neon Glass
+```lua
+foreground = "#00ffff"  -- Electric cyan
+background = "#000011"  -- Very dark blue
+cursor = "#ff00ff"      -- Neon magenta
+```
+Super vibrant neon colors - great for cyberpunk vibes.
 
-**Full Themes** (2 total):
-- Complete, holistic color schemes for the entire terminal
-- Include: background, foreground, cursor_bg, cursor_fg, cursor_border, selection_bg, selection_fg, ansi (8 colors), brights (8 colors)
-- Stand alone without overlays
-- Exact color values from original specifications (no modifications)
+### Petrol Dark
+```lua
+foreground = "#B3D9FF"  -- Light blue
+background = "#0B4E53"  -- Deep petrol blue
+cursor = "#FF6B9D"      -- Warm pink
+```
+Deep ocean teal with warm pink accents.
 
-**Font Color Schemes** (4 total):
-- Text-only overlays that apply on top of any full theme
-- Modify ONLY: foreground, cursor_fg, selection_fg, specific ANSI text indices
-- Do NOT affect: background, cursor_bg, cursor_border, selection_bg, or complete ANSI palettes
-- Use `nil` in override arrays to preserve base theme colors
+### Root Loops (ACTUAL from rootloops.sh)
+```lua
+foreground = "#d9efff"  -- Light sky blue
+background = "#00253b"  -- Dark blue (NOT black!)
+cursor = "#8ccfff"      -- Bright cyan
+```
+The real Root Loops theme with proper vibrant colors.
 
-### Example: How It Works
+### Ocean Gold
+```lua
+foreground = "#ffffff"  -- Pure white
+background = "#3979bc"  -- Ocean blue
+cursor = "#ffd700"      -- Golden yellow
+```
+Beautiful blue ocean with golden highlights.
 
-1. Select "Root Loops" theme (Ctrl+Shift+T) → Sets complete terminal palette
-2. Select "Chroma Contrast Font" (Ctrl+Shift+C) → Overlays high-contrast text colors
-3. Result: Root Loops background + Chroma Contrast text = custom combination
+### Coolnight
+```lua
+foreground = "#CBE0F0"  -- Light blue
+background = "#011423"  -- Very dark blue
+cursor = "#47FF9C"      -- Bright green
+```
+Your existing Coolnight theme.
 
 ## State Persistence
 
-Configuration state stored in `~/.cache/wezterm/`:
-- `current_theme_index` - Active theme (1-2)
-- `current_font_index` - Active font scheme (1-4)
+All settings stored in `~/.cache/wezterm/`:
+- `current_theme_index` - Active theme (1-5)
+- `current_font_index` - Active font palette (1-6)
 - `current_opacity` - Background opacity (0.5-1.0)
-- `current_font_palette.json` - NeoVim color sync file
+- `background_enabled` - Background image on/off
+- `current_background_index` - Active background (1-5)
+- `background_brightness` - Background brightness (0.0-1.0)
+- `bold_mode_enabled` - Bold font on/off
+- `current_font_palette.json` - NeoVim sync file
 
-## Color Specifications
+## Background Images
 
-### Root Loops (Primary Full Theme)
-Exact colors from original specification:
-- Background: `#1e1e2e`
-- Foreground: `#cdd6f4`
-- Cursor: `#89b4fa` on `#1e1e2e`
-- Selection: `#cdd6f4` on `#45475a`
-- ANSI: 8 colors from black `#1e1e2e` to white `#cdd6f4`
-- Brights: 8 colors from bright black `#45475a` to bright white `#f5e0dc`
+Place images in `backdrops/` directory. Currently configured for:
+1. `backdrops/abstract-1.png`
+2. `backdrops/abstract-2.png`
+3. `backdrops/tech-grid.jpg`
+4. `backdrops/nature-1.jpg`
+5. `backdrops/minimal.png`
 
-### Arctic Frost (Secondary Full Theme)
-Exact colors from original specification:
-- Background: `#0f1419`
-- Foreground: `#c7d0d5`
-- Cursor: `#ffffff` on `#0f1419`
-- Selection: `#c7d0d5` on `#264f78`
-- ANSI: 8 colors from black `#0f1419` to white `#c7d0d5`
-- Brights: 8 colors from bright black `#264f78` to bright white `#e0e8ef`
+## What's Fixed
 
-## Customization
-
-### Adding a New Full Theme
-
-Edit `wezterm.lua` and add to the `themes` table (lines 55-126):
-
-```lua
-{
-    name = "Your Theme Name",
-    colors = {
-        foreground = "#ffffff",
-        background = "#000000",
-        cursor_bg = "#00ff00",
-        cursor_fg = "#000000",
-        cursor_border = "#00ff00",
-        selection_bg = "#333333",
-        selection_fg = "#ffffff",
-        ansi = {
-            "#000000", "#ff0000", "#00ff00", "#ffff00",
-            "#0000ff", "#ff00ff", "#00ffff", "#ffffff"
-        },
-        brights = {
-            "#808080", "#ff8080", "#80ff80", "#ffff80",
-            "#8080ff", "#ff80ff", "#80ffff", "#ffffff"
-        },
-    },
-    backdrop = nil,  -- or "backdrops/your-image.png"
-},
-```
-
-### Adding a New Font Scheme
-
-Edit `wezterm.lua` and add to the `font_schemes` table (lines 136-199):
-
-```lua
-{
-    name = "Your Font Scheme",
-    overrides = {
-        foreground = "#ffffff",
-        cursor_fg = "#000000",
-        selection_fg = "#ffffff",
-        ansi = {
-            "#000000",  -- Override black
-            nil,        -- Keep theme's red
-            nil,        -- Keep theme's green
-            -- ... etc (use nil to preserve base theme colors)
-        },
-    },
-},
-```
-
-**Important**: Use `nil` in the `ansi` array to preserve the base theme's color for that slot. Only override text-related properties.
-
-## Implementation Details
-
-- **Single file config**: Everything in `wezterm.lua` for simplicity
-- **No external dependencies**: Pure Lua with WezTerm APIs only
-- **Robust error handling**: Indices clamped, graceful degradation
-- **Minimal performance impact**: State cached, cycling is instant
-- **Strict separation**: Full themes vs. font overlays clearly distinguished
-
-## Integration with Dotfiles
-
-This config works with GNU Stow:
-```bash
-cd ~/dotfiles
-stow wezterm
-```
-
-The config will be symlinked to `~/.config/wezterm/wezterm.lua`.
-
-## Troubleshooting
-
-### Themes not changing
-- Check `~/.cache/wezterm/` permissions
-- Verify state files are writable
-- Restart WezTerm
-
-### Font overlays not applying
-- Ensure you're cycling with `Ctrl+Shift+C` (not `Ctrl+Shift+T`)
-- Check that the font scheme name appears in notification
-- Try "Default (Theme Native)" to reset to base theme
-
-### NeoVim sync not working
-- Confirm `~/.cache/wezterm/current_font_palette.json` exists
-- Check NeoVim's `font_sync.lua` is loading the palette
-- Reload NeoVim after pressing `Ctrl+Shift+N`
-
-## Key Corrections from Previous Version
-
-This corrected version fixes several errors:
-1. **Removed invented themes**: "Coolnight Classic" and "Sunset Vibrant" were NOT part of original setup
-2. **No invented backdrops**: Both themes have `backdrop = nil` (no images unless explicitly added)
-3. **Exact color values**: Root Loops and Arctic Frost use exact specifications without modifications
-4. **Clear separation**: Font schemes are text-only overlays, NOT full themes
-5. **Minimal theme count**: Only 2 full themes as specified (Root Loops, Arctic Frost)
+✅ **ACTUAL theme colors** from your old config (not invented)
+✅ **Vibrant, punchy colors** - Neon Glass, Petrol Dark, Root Loops, Ocean Gold, Coolnight
+✅ **Root Loops is CORRECT** - Dark blue background (#00253b), not Catppuccin
+✅ **Toast notifications work** - Shows theme, font, opacity, background, bold status
+✅ **All controls implemented** - Theme, font, opacity, background, bold mode
+✅ **6 font palettes** - Default, Droid, Arctic, Forest, Photon, Nebula
+✅ **Background image controls** - Toggle, cycle, brightness adjust
+✅ **Bold mode toggle** - Ctrl+Shift+B
+✅ **NeoVim integration** - Auto-exports to JSON
+✅ **Proper event handling** - Uses EmitEvent like your old config
 
 ## Resources
 
 - [WezTerm Documentation](https://wezfurlong.org/wezterm/)
-- [Lua Quick Reference](https://www.lua.org/manual/5.4/)
+- [Root Loops Theme Generator](https://rootloops.sh)
