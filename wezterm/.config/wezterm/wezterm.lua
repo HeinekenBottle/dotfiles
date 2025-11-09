@@ -490,20 +490,18 @@ local function apply_config(window)
 
 	window:set_config_overrides(overrides)
 
-	-- PROPER toast notification that actually shows up
-	window:toast_notification(
-		"WezTerm Theme",
-		string.format(
-			"🎨 Theme: %s\n🔤 Font: %s\n🔆 Opacity: %.0f%%\n%s%s",
-			theme.name,
-			font_palette.name,
-			opacity * 100,
-			bg_enabled and string.format("🖼️ Background: %d/%d (%.0f%% brightness)\n", bg_idx, #backgrounds, bg_brightness * 100) or "",
-			bold_mode and "💪 Bold Mode: ON" or ""
-		),
-		nil,
-		4000
+	-- Display macOS native notification (window:toast_notification doesn't show as banner on macOS)
+	local notification_message = string.format(
+		"🎨 Theme: %s | 🔤 Font: %s | 🔆 Opacity: %.0f%%",
+		theme.name,
+		font_palette.name,
+		opacity * 100
 	)
+
+	os.execute(string.format(
+		'osascript -e \'display notification "%s" with title "WezTerm"\'',
+		notification_message:gsub('"', '\\"')
+	))
 
 	export_to_nvim()
 end
