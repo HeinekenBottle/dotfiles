@@ -14,6 +14,8 @@ local act = wezterm.action
 local state_dir = wezterm.home_dir .. "/.cache/wezterm"
 local theme_state_file = state_dir .. "/current_theme_index"
 local font_state_file = state_dir .. "/current_font_index"
+local font_family_file = state_dir .. "/current_font_family"
+local font_weight_file = state_dir .. "/current_font_weight"
 local opacity_state_file = state_dir .. "/current_opacity"
 local background_enabled_file = state_dir .. "/background_enabled"
 local background_index_file = state_dir .. "/current_background_index"
@@ -224,6 +226,28 @@ local themes = {
 }
 
 -- ============================================================================
+-- FONT FAMILIES - Monospace fonts with weight support
+-- ============================================================================
+
+local font_families = {
+	{
+		name = "JetBrains Mono NL",
+		family = "JetBrainsMonoNL Nerd Font Mono",
+		weights = { "Regular", "Medium" },
+	},
+	{
+		name = "Meslo LGM",
+		family = "MesloLGM Nerd Font Mono",
+		weights = { "Regular", "Medium" },
+	},
+	{
+		name = "Meslo LGS",
+		family = "MesloLGS Nerd Font Mono",
+		weights = { "Regular" }, -- LGS only has Regular, no Medium
+	},
+}
+
+-- ============================================================================
 -- FONT COLOR PALETTES - Text-only overlays
 -- ============================================================================
 
@@ -385,6 +409,14 @@ local function get_font_index()
 	return read_state(font_state_file, 1)
 end
 
+local function get_font_family_index()
+	return read_state(font_family_file, 1)
+end
+
+local function get_font_weight_index()
+	return read_state(font_weight_file, 1)
+end
+
 local function get_opacity()
 	return read_state(opacity_state_file, 1.0)
 end
@@ -482,19 +514,28 @@ local function apply_config(window)
 		overrides.window_background_image = nil
 	end
 
+	-- Get font family and weight
+	local font_family_idx = clamp(get_font_family_index(), 1, #font_families)
+	local font_weight_idx = clamp(get_font_weight_index(), 1, 2)
+	local font_family_info = font_families[font_family_idx]
+	local max_weights_for_family = #font_family_info.weights
+	local safe_weight_idx = clamp(font_weight_idx, 1, max_weights_for_family)
+	local selected_weight = font_family_info.weights[safe_weight_idx]
+
 	if bold_mode then
-		overrides.font = wezterm.font("MesloLGS Nerd Font Mono", { weight = "Bold" })
+		overrides.font = wezterm.font(font_family_info.family, { weight = "Bold" })
 	else
-		overrides.font = wezterm.font("MesloLGS Nerd Font Mono")
+		overrides.font = wezterm.font(font_family_info.family, { weight = selected_weight })
 	end
 
 	window:set_config_overrides(overrides)
 
 	-- Display macOS native notification (window:toast_notification doesn't show as banner on macOS)
 	local notification_message = string.format(
-		"🎨 Theme: %s | 🔤 Font: %s | 🔆 Opacity: %.0f%%",
+		"🎨 Theme: %s | 🔤 %s (%s) | 🔆 Opacity: %.0f%%",
 		theme.name,
-		font_palette.name,
+		font_family_info.name,
+		selected_weight,
 		opacity * 100
 	)
 
@@ -521,6 +562,26 @@ wezterm.on("toggle-font-colors", function(window, _pane)
 	local current = get_font_index()
 	local next = (current % #font_palettes) + 1
 	write_state(font_state_file, next)
+	apply_config(window)
+end)
+
+wezterm.on("cycle-font-family", function(window, _pane)
+	local current = get_font_family_index()
+	local next = (current % #font_families) + 1
+	write_state(font_family_file, next)
+	-- Reset weight to 1 (Regular) when switching font family
+	write_state(font_weight_file, 1)
+	apply_config(window)
+end)
+
+wezterm.on("cycle-font-weight", function(window, _pane)
+	local family_idx = clamp(get_font_family_index(), 1, #font_families)
+	local family_info = font_families[family_idx]
+	local max_weights = #family_info.weights
+
+	local current = get_font_weight_index()
+	local next = (current % max_weights) + 1
+	write_state(font_weight_file, next)
 	apply_config(window)
 end)
 
@@ -598,6 +659,12 @@ config.keys = {
 	-- Font color palette cycling
 	{ key = "C", mods = "CTRL|SHIFT", action = act.EmitEvent("toggle-font-colors") },
 
+	-- Font family cycling (JetBrains ↔ Meslo LGM ↔ Meslo LGS)
+	{ key = "F", mods = "CTRL|SHIFT", action = act.EmitEvent("cycle-font-family") },
+
+	-- Font weight cycling (Regular ↔ Medium, with smart handling for fonts that don't support Medium)
+	{ key = "K", mods = "CTRL|SHIFT", action = act.EmitEvent("cycle-font-weight") },
+
 	-- Opacity adjustments
 	{ key = "UpArrow", mods = "CTRL|SHIFT", action = act.EmitEvent("opacity-up") },
 	{ key = "DownArrow", mods = "CTRL|SHIFT", action = act.EmitEvent("opacity-down") },
@@ -621,7 +688,15 @@ config.keys = {
 -- BASE CONFIGURATION
 -- ============================================================================
 
-config.font = wezterm.font("MesloLGS Nerd Font Mono")
+-- Initial font setup
+local initial_font_family_idx = clamp(get_font_family_index(), 1, #font_families)
+local initial_font_weight_idx = clamp(get_font_weight_index(), 1, 2)
+local initial_font_family = font_families[initial_font_family_idx]
+local max_weights = #initial_font_family.weights
+local safe_weight_idx = clamp(initial_font_weight_idx, 1, max_weights)
+local initial_weight = initial_font_family.weights[safe_weight_idx]
+
+config.font = wezterm.font(initial_font_family.family, { weight = initial_weight })
 config.font_size = 14
 config.enable_tab_bar = false
 config.window_decorations = "RESIZE"
